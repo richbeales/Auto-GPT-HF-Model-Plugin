@@ -1,9 +1,10 @@
-from typing import TypeVar
 import unittest
+from typing import TypeVar
+
 from src.huggingface import (
-    HuggingFaceLocalModel,
-    HuggingFaceHostedInferenceModel,
     HuggingFaceFreeInterenceModel,
+    HuggingFaceHostedInferenceModel,
+    HuggingFaceLocalModel,
 )
 
 PromptGenerator = TypeVar("PromptGenerator")

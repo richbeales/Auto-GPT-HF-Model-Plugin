@@ -1,20 +1,26 @@
-import requests
 import dotenv
-from transformers import AutoModelForCausalLM, AutoTokenizer, StoppingCriteria, StoppingCriteriaList
+import requests
 import torch
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    StoppingCriteria,
+    StoppingCriteriaList,
+)
+
 
 class HuggingFaceModel:
     def make_conversation(self, prompt) -> str:
-        hf_prompt = ''
+        hf_prompt = ""
         for message in prompt:
-            if message['role'] == 'user':
-                hf_prompt += '<|SYSTEM|>' + message['content']
-            elif message['role'] == 'assistant':
-                hf_prompt += '<|USER|>' + message['content']
-            elif message['role'] == 'system':
-                hf_prompt += '<|USER|>' + message['content']
+            if message["role"] == "user":
+                hf_prompt += "<|SYSTEM|>" + message["content"]
+            elif message["role"] == "assistant":
+                hf_prompt += "<|USER|>" + message["content"]
+            elif message["role"] == "system":
+                hf_prompt += "<|USER|>" + message["content"]
             else:
-                hf_prompt += '<|USER|>' + message['content']
+                hf_prompt += "<|USER|>" + message["content"]
         return hf_prompt
 
     def get_completion(
@@ -58,12 +64,15 @@ class HuggingFaceFreeInterenceModel(HuggingFaceModel):
 
 
 class StopOnTokens(StoppingCriteria):
-    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+    def __call__(
+        self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs
+    ) -> bool:
         stop_ids = [50278, 50279, 50277, 1, 0]
         for stop_id in stop_ids:
             if input_ids[0][-1] == stop_id:
                 return True
         return False
+
 
 class HuggingFaceLocalModel(HuggingFaceModel):
     def query(self, model, prompt):
@@ -84,11 +93,11 @@ class HuggingFaceLocalModel(HuggingFaceModel):
 
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
         tokens = model.generate(
-        **inputs,
-        max_new_tokens=64,
-        temperature=0.7,
-        do_sample=True,
-        stopping_criteria=StoppingCriteriaList([StopOnTokens()])
+            **inputs,
+            max_new_tokens=64,
+            temperature=0.7,
+            do_sample=True,
+            stopping_criteria=StoppingCriteriaList([StopOnTokens()]),
         )
         print(tokenizer.decode(tokens[0], skip_special_tokens=True))
         return tokenizer.decode(tokens[0], skip_special_tokens=True)

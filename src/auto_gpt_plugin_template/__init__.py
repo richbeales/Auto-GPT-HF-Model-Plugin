@@ -243,4 +243,6 @@ class AutoGPTHuggingFaceModel(): # AutoGPTPluginTemplate)
             self.model,
             conv,
             last_message,
+            temperature=temperature,
+            max_tokens=max_tokens,
         )

@@ -28,9 +28,11 @@ class HuggingFaceModel:
         model: str,
         conv,
         last_message: str,
+        temperature: float,
+        max_tokens: int,
     ) -> str:
         payload = {"inputs": conv}
-        response = self.query(model, payload)
+        response = self.query(model, payload, temperature, max_tokens)
         print(response)
         try:
             return response[0]["generated_text"]
@@ -39,14 +41,14 @@ class HuggingFaceModel:
 
 
 class HuggingFaceHostedInferenceModel(HuggingFaceModel):
-    def query(self, model, payload: dict) -> dict:
+    def query(self, model, payload: dict, temperature, max_tokens) -> dict:
         headers = {
             "Authorization": "Bearer " + dotenv.get_key(".env", "HUGGINGFACE_TOKEN")
         }
         host = dotenv.get_key(".env", "HUGGINGFACE_HOSTED_URL")
         if host:
             payload['options'] = {'use_cache': False, 'wait_for_model': True}
-            payload['parameters'] = {'top_p': 1.0, 'temperature': .7, 'min_length': 10, 'max_length': 1024, 'return_full_text': True}
+            payload['parameters'] = {'top_p': 1.0, 'temperature': temperature, 'max_length': max_tokens, 'return_full_text': True}
             response = requests.post(host, headers=headers, json=payload)
             return response.json()
         else:
@@ -56,7 +58,7 @@ class HuggingFaceHostedInferenceModel(HuggingFaceModel):
 class HuggingFaceFreeInterenceModel(HuggingFaceModel):
     API_URL = "https://api-inference.huggingface.co/models/"
 
-    def query(self, model, payload: dict) -> dict:
+    def query(self, model, payload: dict, temperature, max_tokens) -> dict:
         # return [{"generated_text": "Bypassing free API for now"}]
         headers = {
             "Authorization": "Bearer " + dotenv.get_key(".env", "HUGGINGFACE_TOKEN")
@@ -78,7 +80,7 @@ class StopOnTokens(StoppingCriteria):
 
 
 class HuggingFaceLocalModel(HuggingFaceModel):
-    def query(self, model, prompt):
+    def query(self, model, prompt, temperature, max_tokens):
         return ""  # CUDA issue on my machine - skip for now 
 
         tokenizer = AutoTokenizer.from_pretrained(model)

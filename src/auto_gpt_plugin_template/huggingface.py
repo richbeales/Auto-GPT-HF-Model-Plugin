@@ -47,8 +47,13 @@ class HuggingFaceHostedInferenceModel(HuggingFaceModel):
         }
         host = dotenv.get_key(".env", "HUGGINGFACE_HOSTED_URL")
         if host:
-            payload['options'] = {'use_cache': False, 'wait_for_model': True}
-            payload['parameters'] = {'top_p': 1.0, 'temperature': temperature, 'max_length': max_tokens, 'return_full_text': True}
+            payload["options"] = {"use_cache": False, "wait_for_model": True}
+            payload["parameters"] = {
+                "top_p": 1.0,
+                "temperature": temperature,
+                "max_length": max_tokens,
+                "return_full_text": True,
+            }
             response = requests.post(host, headers=headers, json=payload)
             return response.json()
         else:
@@ -81,7 +86,7 @@ class StopOnTokens(StoppingCriteria):
 
 class HuggingFaceLocalModel(HuggingFaceModel):
     def query(self, model, prompt, temperature, max_tokens):
-        return ""  # CUDA issue on my machine - skip for now 
+        return ""  # CUDA issue on my machine - skip for now
 
         tokenizer = AutoTokenizer.from_pretrained(model)
         model = AutoModelForCausalLM.from_pretrained(model)

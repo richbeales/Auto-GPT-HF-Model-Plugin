@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
         print(completion)
         assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
 
-    #def test_local(self):
+    # def test_local(self):
     #    hf = HuggingFaceLocalModel()
     #    completion = hf.get_completion(
     #        "stabilityai/stablelm-tuned-alpha-3b",
@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
     #    print(completion)
     #    assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
 
-    #def test_free(self):
+    # def test_free(self):
     #    hf = HuggingFaceFreeInterenceModel()
     #    completion = hf.get_completion(
     #        "stabilityai/stablelm-tuned-alpha-3b",

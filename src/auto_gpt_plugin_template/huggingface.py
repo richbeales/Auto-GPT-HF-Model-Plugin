@@ -45,7 +45,9 @@ class HuggingFaceHostedInferenceModel(HuggingFaceModel):
         }
         host = dotenv.get_key(".env", "HUGGINGFACE_HOSTED_URL")
         if host:
-            response = requests.post(host + model, headers=headers, json=payload)
+            payload['options'] = {'use_cache': False, 'wait_for_model': True}
+            payload['parameters'] = {'top_p': 1.0, 'temperature': .7, 'min_length': 10, 'max_length': 1024, 'return_full_text': True}
+            response = requests.post(host, headers=headers, json=payload)
             return response.json()
         else:
             return [{"generated_text": "Missing Hostname!"}]
@@ -55,6 +57,7 @@ class HuggingFaceFreeInterenceModel(HuggingFaceModel):
     API_URL = "https://api-inference.huggingface.co/models/"
 
     def query(self, model, payload: dict) -> dict:
+        # return [{"generated_text": "Bypassing free API for now"}]
         headers = {
             "Authorization": "Bearer " + dotenv.get_key(".env", "HUGGINGFACE_TOKEN")
         }
@@ -76,7 +79,7 @@ class StopOnTokens(StoppingCriteria):
 
 class HuggingFaceLocalModel(HuggingFaceModel):
     def query(self, model, prompt):
-        return ""  # CUDA issue
+        return ""  # CUDA issue on my machine - skip for now 
 
         tokenizer = AutoTokenizer.from_pretrained(model)
         model = AutoModelForCausalLM.from_pretrained(model)

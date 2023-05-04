@@ -11,14 +11,14 @@ PromptGenerator = TypeVar("PromptGenerator")
 
 
 class Test(unittest.TestCase):
-    def test_inference(self):
+    def test_hosted_inference(self):
         hf = HuggingFaceHostedInferenceModel()
         completion = hf.get_completion(
             "stabilityai/stablelm-tuned-alpha-3b",
             "Can you please let us know more details about your ",
             "",
             temperature=0.5,
-            max_tokens=200
+            max_tokens=200,
         )
         print(completion)
         assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")

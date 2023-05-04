@@ -4,11 +4,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, TypeVar
 
 import dotenv
-
-from .huggingface import HuggingFaceHostedInferenceModel
-
 from auto_gpt_plugin_template import AutoGPTPluginTemplate
 
+from .huggingface import HuggingFaceHostedInferenceModel
 
 PromptGenerator = TypeVar("PromptGenerator")
 

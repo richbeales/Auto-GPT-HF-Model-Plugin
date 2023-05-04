@@ -1,4 +1,4 @@
-import unittest
+import pytest
 from typing import TypeVar
 
 from hf_model_chat_plugin.huggingface import (
@@ -10,7 +10,7 @@ from hf_model_chat_plugin.huggingface import (
 PromptGenerator = TypeVar("PromptGenerator")
 
 
-class Test(unittest.TestCase):
+class TestHuggingFace():
     def test_hosted_inference(self):
         hf = HuggingFaceHostedInferenceModel()
         completion = hf.get_completion(
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
             max_tokens=200,
         )
         print(completion)
-        assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
+        assert len(completion) > 0
 
     # def test_local(self):
     #    hf = HuggingFaceLocalModel()
@@ -33,7 +33,8 @@ class Test(unittest.TestCase):
     #        max_tokens=200
     #    )
     #    print(completion)
-    #    assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
+    #    assert len(completion) > 0
+
 
     # def test_free(self):
     #    hf = HuggingFaceFreeInterenceModel()
@@ -45,4 +46,5 @@ class Test(unittest.TestCase):
     #        max_tokens=200
     #    )
     #    print(completion)
-    #    assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
+    #    assert len(completion) > 0
+

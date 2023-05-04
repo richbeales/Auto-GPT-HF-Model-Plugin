@@ -8,9 +8,10 @@ In this case I'm playing with stablelm-tuned-alpha-3b.  But in theory you can pi
 
 You might need to change the prompt separators based on the model.
 
-Same as Auto-GPT look in `.env.template` and copy to `.env` and pip install -r requirements.txt
+Same as Auto-GPT look in `.env.template` and copy to `.env` (and duplicate in your actual AutoGPT .env) and pip install -r requirements.txt
 
-There's three classes included (you have to change the one you use in the code at the top of __init__.py
+There's three classes included (you have to change the one you use in the code at the top of __init__.py).
+It's currently set up to use the hosted inference one (2).
 
 1. one using the (free) inference API on Hugging Face
        https://huggingface.co/stabilityai/stablelm-base-alpha-3b
@@ -19,3 +20,7 @@ There's three classes included (you have to change the one you use in the code a
        https://ui.endpoints.huggingface.co/endpoints
 
 3. other using their local model (downloads the model and uses CUDA - doesn't work on my machine yet (CUDA issue) this is just their sample code)
+
+
+
+You can run pytest too, to see the limited testing i've done...

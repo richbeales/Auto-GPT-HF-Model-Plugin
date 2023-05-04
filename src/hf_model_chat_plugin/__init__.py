@@ -235,10 +235,11 @@ class AutoGPTHuggingFaceModel(AutoGPTPluginTemplate):
             str: The resulting response.
         """
         last_message = messages.pop()["content"]
+        #print("messages = " + str(messages))
         conv = self.hf_model.make_conversation(
             [(message["role"], message["content"]) for message in messages],
         )
-        return self.hf_model.get_chat_completion(
+        return self.hf_model.get_completion(
             self.model,
             conv,
             last_message,

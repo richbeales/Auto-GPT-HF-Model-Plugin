@@ -12,15 +12,26 @@ from transformers import (
 class HuggingFaceModel:
     def make_conversation(self, prompt) -> str:
         hf_prompt = ""
+        #print(prompt)
         for message in prompt:
-            if message["role"] == "user":
-                hf_prompt += "<|SYSTEM|>" + message["content"]
-            elif message["role"] == "assistant":
-                hf_prompt += "<|USER|>" + message["content"]
-            elif message["role"] == "system":
-                hf_prompt += "<|USER|>" + message["content"]
+            if type(message) is dict:
+                if message["role"] == "user":
+                    hf_prompt += "<|SYSTEM|>" + message["content"]
+                elif message["role"] == "assistant":
+                    hf_prompt += "<|USER|>" + message["content"]
+                elif message["role"] == "system":
+                    hf_prompt += "<|USER|>" + message["content"]
+                else:
+                    hf_prompt += "<|USER|>" + message["content"]
             else:
-                hf_prompt += "<|USER|>" + message["content"]
+                if message[0] == "user":
+                    hf_prompt += "<|SYSTEM|>" + message[1]
+                elif message[0] == "assistant":
+                    hf_prompt += "<|USER|>" + message[1]
+                elif message[0] == "system":
+                    hf_prompt += "<|USER|>" + message[1]
+                else:
+                    hf_prompt += "<|USER|>" + message[1]
         return hf_prompt
 
     def get_completion(

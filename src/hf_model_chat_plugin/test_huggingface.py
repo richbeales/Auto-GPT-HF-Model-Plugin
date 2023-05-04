@@ -1,7 +1,7 @@
 import unittest
 from typing import TypeVar
 
-from auto_gpt_plugin_template.huggingface import (
+from hf_model_chat_plugin.huggingface import (
     HuggingFaceFreeInterenceModel,
     HuggingFaceHostedInferenceModel,
     HuggingFaceLocalModel,
@@ -17,6 +17,8 @@ class Test(unittest.TestCase):
             "stabilityai/stablelm-tuned-alpha-3b",
             "Can you please let us know more details about your ",
             "",
+            temperature=0.5,
+            max_tokens=200
         )
         print(completion)
         assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
@@ -27,6 +29,8 @@ class Test(unittest.TestCase):
     #        "stabilityai/stablelm-tuned-alpha-3b",
     #        "Can you please let us know more details about your ",
     #        "",
+    #        temperature=0.5,
+    #        max_tokens=200
     #    )
     #    print(completion)
     #    assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")
@@ -37,6 +41,8 @@ class Test(unittest.TestCase):
     #        "stabilityai/stablelm-tuned-alpha-3b",
     #        "Can you please let us know more details about your ",
     #        "",
+    #        temperature=0.5,
+    #        max_tokens=200
     #    )
     #    print(completion)
     #    assert unittest.TestCase.assertIsNotNone(self, completion, "Completion is None")

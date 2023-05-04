@@ -7,13 +7,13 @@ import dotenv
 
 from .huggingface import HuggingFaceHostedInferenceModel
 
-# from auto_gpt_plugin_template import AutoGPTPluginTemplate
+from auto_gpt_plugin_template import AutoGPTPluginTemplate
 
 
 PromptGenerator = TypeVar("PromptGenerator")
 
 
-class AutoGPTHuggingFaceModel:  # AutoGPTPluginTemplate)
+class AutoGPTHuggingFaceModel(AutoGPTPluginTemplate):
     """
     This is the Hugging Face hosted LLM model plugin for Auto-GPT.
     """
